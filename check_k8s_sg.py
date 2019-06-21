@@ -66,14 +66,6 @@ def clean_sg(region):
 
     sg_to_delete = k8s_sg - elb_sgs
 
-    sg_in_nodes_sg = []
-    k8s_nodes_sg = ec2r.SecurityGroup(list(get_k8s_sg(cluster_name,region, groupname_filter='nodes.k8s'))[0])
-    for ip_perm in k8s_nodes_sg.ip_permissions:
-        sg_in_nodes_sg += ip_perm['UserIdGroupPairs']
-
-    sg_in_nodes_sg = [ sg['GroupId'] for sg in sg_in_nodes_sg]
-
-
     if sg_to_delete:
         logging.info("{} - {} sg are currently in use by k8s services, {} will be deleted.".format(cluster_name, len(elb_sgs),len(sg_to_delete)))
 
@@ -84,10 +76,7 @@ def clean_sg(region):
                 ec2.delete_security_group(GroupId=sg)
                 logging.info('{} deleted'.format(sg))
             except Exception as e:
-                if sg in sg_in_nodes_sg:
-                    logging.warning('{} are link to {}\n please delete it manually'.format(sg, k8s_nodes_sg.group_id))
-                else:
-                    logging.error('Unable to delete following SG : {}: {}'.format(sg, e))
+                logging.error('Unable to delete following SG : {}: {}'.format(sg, e))
 
 if __name__ == '__main__':
     logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', level=logging.INFO)
