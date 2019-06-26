@@ -50,7 +50,7 @@ spec:
           namespace: infrastructure
         spec:
           containers:
-            args: ["--cluster_name k8s.cluster.company.com"]
+            args: ["--cluster_name", "k8s.cluster.company.com"]
             image: coveo/k8s_sg_cleaner:1.0.0
             name: sg-cleaner
             resources:
