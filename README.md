@@ -1,6 +1,6 @@
 # Presentation
 
-Until you are using Kubernetes 1.14 fix the [following](https://github.com/kubernetes/kubernetes/pull/74311) fix in the aws provider you may leak some security group when service is deleted.
+Until you are using Kubernetes 1.14 with the [following](https://github.com/kubernetes/kubernetes/pull/74311) fix in the aws provider you may leak some security group when service is deleted.
 
 ## How it works
 
