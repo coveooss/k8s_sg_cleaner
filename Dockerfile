@@ -1,4 +1,4 @@
-FROM python:3
+FROM python:3-alpine
 
 ADD check_k8s_sg.py /
 
